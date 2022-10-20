@@ -1,0 +1,9 @@
+name: cython
+channels:
+  - defaults
+dependencies:
+  - pip=22.2.2
+  - python=3.7.13
+  - setuptools=63.4.1
+  - pip:
+    - cython==0.29.32
