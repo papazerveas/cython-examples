@@ -49,3 +49,9 @@ from primes import primes
 primes(100)
 
 ```
+
+## unit testing
+
+```bash
+make test
+```

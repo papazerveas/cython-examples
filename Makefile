@@ -11,6 +11,9 @@ prime:
 	# - $(MAKE) bench
 	# - $(MAKE) clean_all
 
+test:
+	- python -m unittest discover tests -p '*_test.py'
+
 bench:
 	- python -m timeit -s "from primes import primes;" "primes(1000)" 
 	- python -m timeit -s "from primes.primes_python import primes;" "primes(1000)" 
