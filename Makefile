@@ -1,15 +1,23 @@
-
+GIT_BRANCH ?= master
 
 hello:
-	- python setup-hello.py build_ext --inplace
+	- python setup-hello.py build_ext --inplace --compiler=mingw32
 
 fibo:
 	- python setup-fib.py build_ext --inplace
 
+shape:
+	- python setup-shapes.py build_ext --inplace
+
 prime:
-	- python setup-primes.py build_ext --inplace
+	- python setup-primes.py build_ext
 	# - $(MAKE) bench
 	# - $(MAKE) clean_all
+
+
+pre_test_build:
+	- $(MAKE) prime
+	- $(MAKE) shape
 
 test:
 	- python -m unittest discover tests -p '*_test.py'
@@ -23,7 +31,7 @@ bench:
 
 
 .PHONY: clean_all
-clean_all: clean  clean_pyd clean_pyc clean_cpp
+clean_all: clean  clean_pyd clean_pyc clean_c clean_cpp
 
 
 .PHONY: clean
@@ -44,8 +52,25 @@ clean_pyd:
 	- python -Bc "import pathlib; [p.unlink() for p in pathlib.Path('.').rglob('*.pyd')]"
 	# - find . -name '*.pyd' -exec rm {} \;
 
+
+.PHONY: clean_c
+clean_c:
+	- python -Bc "import pathlib; [p.unlink() for p in pathlib.Path('.').rglob('*.c')]"
+
 .PHONY: clean_cpp
 clean_cpp:
-	- python -Bc "import pathlib; [p.unlink() for p in pathlib.Path('.').rglob('*.c')]"
-	- python -Bc "import pathlib; [p.unlink() for p in pathlib.Path('.').rglob('*.cpp')]"
+	- python -Bc "import pathlib; [p.unlink() for p in pathlib.Path('.').rglob('*.cpp') if not p.name.__eq__('Rectangle.cpp') ]"
 	# - find . -name '*.cpp' -exec rm {} \;
+
+
+git:
+	- git checkout $(GIT_BRANCH)
+	- git add -A .
+	- git commit -m "$(msg)"
+	- git push -u  origin $(GIT_BRANCH)
+
+gitamend:
+	- git checkout $(GIT_BRANCH)
+	- git add -A .
+	- git commit --amend --no-edit
+	- git push origin $(GIT_BRANCH) --force
