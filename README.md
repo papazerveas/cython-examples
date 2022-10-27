@@ -5,7 +5,13 @@
 [gcc install](https://www.mingw-w64.org/downloads/)
 
 ```bash
-on windows: scoop install mingw
+WINDOWS: 
+    - scoop install mingw
+    or
+    - download https://visualstudio.microsoft.com/vs/older-downloads/ Community
+    - Check VC++ 2015.3 v14.00 (v140) toolset for desktop from indivifual components
+UBUNTU: 
+    -sudo apt-get install gcc g++
 ```
 
 ## conda
